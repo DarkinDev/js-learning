@@ -1,0 +1,40 @@
+body {
+  max-width: 432px;
+  max-height: 874px;
+  margin: 0 auto;
+  background: #f0b5ce;
+}
+
+header {
+  display: flex;
+}
+
+#seach {
+  padding: 1rem;
+  background: transparent;
+  border: transparent;
+  outline: transparent;
+  color: #fff;
+}
+
+.search-btn {
+  background: linear-gradient(
+    117deg,
+    rgba(255, 255, 255, 0.48) -41.94%,
+    rgba(255, 255, 255, 0.12) 57.51%
+  );
+  padding: 0px 10px 0px 10px;
+  backdrop-filter: blur(50px);
+  border-radius: 20px;
+  width: 263px;
+  height: 43px;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-btn button {
+  background: transparent;
+  border: transparent;
+}
+
