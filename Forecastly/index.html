@@ -106,14 +106,19 @@
         </defs>
       </svg>
       <div class="search-btn">
-        <input type="text" id="seach" />
+        <input type="text" id="search" placeholder="City"/>
         <button onclick="citySearch()">
           <img src="assets/vector.svg" alt="Search" />
         </button>
       </div>
     </header>
     <main>
-      <div ></div>
+      <div class="hero">
+        <span class="temperature"></span>
+        <span class="degree"></span>
+      </div>
+      <div class="date"></div>
+      <div class="weekday-n-time"></div>
     </main>
     <script src="./script.js"></script>
   </body>

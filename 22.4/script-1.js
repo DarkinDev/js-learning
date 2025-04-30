@@ -60,6 +60,7 @@ inputElement.addEventListener("change", function (event) {
     })
     .then((response) => {
       console.log(response);
+      
     });
 
   reset(inputElement);

@@ -1,20 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 body {
   max-width: 432px;
   max-height: 874px;
   margin: 0 auto;
   background: #f0b5ce;
+  font-family: "Inter", sans-serif;
 }
 
 header {
   display: flex;
 }
 
-#seach {
+#search {
   padding: 1rem;
   background: transparent;
   border: transparent;
   outline: transparent;
   color: #fff;
+  font-size: 1rem;
+}
+
+#search::placeholder {
+  color: #ffffff8c;
 }
 
 .search-btn {
@@ -38,3 +46,34 @@ header {
   border: transparent;
 }
 
+.hero {
+  display: flex;
+  justify-content: center;
+  color: #fff;
+}
+
+.temperature {
+  font-size: 10.25rem;
+  font-weight: 100;
+}
+
+.degree {
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.date {
+  display: flex;
+  justify-content: center;
+  font-size: 36px;
+  color: #fff;
+  font-weight: 300;
+}
+
+.weekday-n-time {
+  display: flex;
+  justify-content: center;
+  font-size: 19px;
+  color: #fff;
+  font-weight: 300;
+}

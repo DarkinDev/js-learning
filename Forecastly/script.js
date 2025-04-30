@@ -1,6 +1,11 @@
 const city_name = "ha noi";
 const API_key = "806c10017721c07fa7a1f6804f00d0b9";
 const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&lang=vi&units=metric`;
+const forecasturl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}`
+const tempElement = document.getElementsByClassName("temperature")[0];
+const degreeElement = document.getElementsByClassName("degree")[0];
+const dateElement = document.getElementsByClassName("date")[0];
+const weekdayElement = document.getElementsByClassName("weekday-n-time")[0];
 
 let iniData;
 function getLocation() {
@@ -14,22 +19,81 @@ function getLocation() {
 function success(position) {
   const lon = position.coords.longitude;
   const lat = position.coords.latitude;
-
-  console.log("Latitude: " + position.coords.latitude);
-  console.log("Longitude: " + position.coords.longitude);
+  let temp;
+  console.log(temp);
 
   const CoordUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_key}&lang=vi&units=metric`;
-
+  const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_key}&lang=vi&units=metric`
   fetch(CoordUrl)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
-      iniData = data;
+      temp = data.main.temp;
+      const degree = "&deg;C";
+      tempElement.innerHTML = `${Math.round(temp)}`;
+      degreeElement.innerHTML = `${degree}`
+    })
+    .catch((error) => {
+      console.error(error.message)
     });
+
+    console.log(temp);
+  // api call for forecast in 3h
+  fetch(ForecastCoordUrl)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data)
+    })
 }
+
+// get current date
+const today = new Date();
+const day = today.getDate()
+
+const options = { year: 'numeric' , day: 'numeric' , month: 'long' };
+dateElement.innerHTML = today.toLocaleDateString("en-US", options);
+
+// get current day
+const d = today.getDay();
+let DayofWeek
+switch(d) {
+  case 0:
+    DayofWeek = "Sunday";
+    break;
+  case 1:
+    DayofWeek = "Monday";
+    break;
+  case 2:
+    DayofWeek = "Tuesday";
+    break;  
+  case 3:
+    DayofWeek = "Wednesday";
+    break;
+  case 4:
+    DayofWeek = "Thursday";
+    break;
+  case 5:
+    DayofWeek = "Friday";
+    break;
+  case 6:
+    DayofWeek = "Saturday";
+    break;
+
+}
+let hours = today.getHours()
+
+let min = today.getMinutes()
+// them so 0 khi so phut be hon 10
+if(min < 10) {
+  min = '0' + min;
+}
+
+weekdayElement.innerHTML = `${DayofWeek} | ${hours}:${min}`
+
+
 
 function error() {
   alert("Sorry, no position available.");
+  console.log('sry, no position');
 }
 
 getLocation();
