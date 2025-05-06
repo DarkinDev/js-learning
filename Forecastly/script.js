@@ -9,6 +9,8 @@ const tempElement = document.getElementsByClassName("temperature")[0];
 const degreeElement = document.getElementsByClassName("degree")[0];
 const dateElement = document.getElementsByClassName("date")[0];
 const weekdayElement = document.getElementsByClassName("weekday-n-time")[0];
+const windElement = document.getElementsByClassName("windData")[0];
+const rainElement = document.getElementsByClassName("rainData")[0];
 
 // get user current location
 function getLocation() {
@@ -23,7 +25,6 @@ function getLocation() {
 function success(position) {
   const lon = position.coords.longitude;
   const lat = position.coords.latitude;
-  const cnt = 7
   // api call for current location weather
   const CoordUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_key}&lang=vi&units=metric`;
   
@@ -34,8 +35,9 @@ function success(position) {
   fetch(CoordUrl)
     .then((res) => res.json())
     .then((data) => {
+      console.log(data);
       temp = data.main.temp;
-      const degree = "&deg;C";
+      degree = "&deg;C";
       tempElement.innerHTML = `${Math.round(temp)}`;
       degreeElement.innerHTML = `${degree}`
     })
@@ -48,7 +50,23 @@ function success(position) {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      windspeed = data.list[1].wind.speed;
+      windElement.innerHTML = `${windspeed} m/s`;
+      // Filter the forecast data to find rain forecasts
+      const rainForecasts = data.list.filter(item => item.rain && item.rain["3h"]);
+      console.log("Rain forecasts:", rainForecasts);
+
+      // Display the first rain forecast's data
+      if (rainForecasts.length > 0) {
+        const firstRain = rainForecasts[0];
+        rainElement.innerHTML = `${firstRain.rain["3h"]} %`;
+      } else {
+        rainElement.innerHTML = "No rain forecasted.";
+      }
     })
+    .catch((error) => {
+      console.error(error.message)
+    });
 }
 
 // get current date
@@ -86,11 +104,12 @@ switch(d) {
 
 }
 
+// update clock by realtime
 function updateClock() {
   let today = new Date()
   let hours = today.getHours()
   let min = today.getMinutes()
-  // them so 0 khi so phut be hon 10
+  // add leading zero to minutes if less than 10
   if(min < 10) {
     min = '0' + min;
   }

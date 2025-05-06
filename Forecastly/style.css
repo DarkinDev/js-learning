@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
   max-width: 432px;
@@ -6,6 +7,7 @@ body {
   margin: 0 auto;
   background: #f0b5ce;
   font-family: "Inter", sans-serif;
+  color: #fff;
 }
 
 header {
@@ -15,7 +17,7 @@ header {
 #search {
   padding: 1rem;
   background: transparent;
-  border: transparent;
+  border: none;
   outline: transparent;
   color: #fff;
   font-size: 1rem;
@@ -76,4 +78,45 @@ header {
   font-size: 19px;
   color: #fff;
   font-weight: 300;
+}
+
+.wind {
+  margin-left: 36px;
+  margin-top: 57px;
+  font-size: 22px;
+  font-weight: 300;
+  font-family: "Overpass", sans-serif;
+}
+
+.wind div {
+  display: flex; 
+  align-items: center;
+}
+
+.wind div img {
+  padding-right: 11px;
+}
+
+.windData {
+  margin-left: 21px;
+}
+
+.rain {
+  margin-left: 36px;
+  font-size: 22px;
+  font-weight: 300;
+  font-family: "Overpass", sans-serif;
+}
+
+.rain div {
+  display: flex; 
+  align-items: center;
+}
+
+.rain div img {
+  padding-right: 11px;
+}
+
+.rainData {
+  margin-left: 21px;
 }
