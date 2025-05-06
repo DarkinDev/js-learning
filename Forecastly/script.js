@@ -53,7 +53,7 @@ function success(position) {
       windspeed = data.list[1].wind.speed;
       windElement.innerHTML = `${windspeed} m/s`;
       // Filter the forecast data to find rain forecasts
-      const rainForecasts = data.list.filter(item => item.rain && item.rain["3h"]);
+      rainForecasts = data.list.filter(item => item.rain && item.rain["3h"]);
       console.log("Rain forecasts:", rainForecasts);
 
       // Display the first rain forecast's data
