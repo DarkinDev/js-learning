@@ -120,3 +120,12 @@ header {
 .rainData {
   margin-left: 21px;
 }
+
+.location {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-family: "Overpass", sans-serif;
+  font-size: 30px;
+  font-weight: 300;
+}

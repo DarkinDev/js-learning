@@ -8,29 +8,29 @@ const locationElement = document.getElementById("location");
 // Ấn vô nút => trigger function citySearch -> Gọi API get Weather
 // Lấy giá trị input đi search => http method (get, post, put, patch, delete, option) =>
 
-// function citySearch() {
-//   let value = inputElement.value;
+function citySearch() {
+  let value = inputElement.value;
 
-//   if (!value) {
-//     alert("Vui lòng nhập tên thành phố.");
-//     return;
-//   }
+  if (!value) {
+    alert("Vui lòng nhập tên thành phố.");
+    return;
+  }
 
-//   const city_name = value;
+  const city_name = value;
 
-//   const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&lang=vi&units=metric`;
+  const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&lang=vi&units=metric`;
 
-//   fetch(url)
-//     .then((response) => {
-//       return response.json();
-//     })
-//     .then((res) => {
-//       console.log(res);
-//       data = res;
-//     });
+  fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((res) => {
+      console.log(res);
+      data = res;
+    });
 
-//   reset(inputElement);
-// }
+  reset(inputElement);
+}
 
 // Function show search result
 function searchResult() {

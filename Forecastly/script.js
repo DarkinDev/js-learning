@@ -5,12 +5,58 @@ const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid
 
 // api call for current forecast per 3 hrs/ 5 days
 const forecasturl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}`
+
+const locationElement = document.getElementsByClassName("location")[0];
 const tempElement = document.getElementsByClassName("temperature")[0];
 const degreeElement = document.getElementsByClassName("degree")[0];
 const dateElement = document.getElementsByClassName("date")[0];
 const weekdayElement = document.getElementsByClassName("weekday-n-time")[0];
 const windElement = document.getElementsByClassName("windData")[0];
 const rainElement = document.getElementsByClassName("rainData")[0];
+
+function getWeather() {
+
+  const city_name = "ha noi";
+
+  const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&lang=vi&units=metric`;
+
+  const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}&lang=vi&units=metric`
+
+  fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      temp = data.main.temp;
+      degree = "&deg;C";
+      tempElement.innerHTML = `${Math.round(temp)}`;
+      degreeElement.innerHTML = `${degree}`
+    });
+
+  fetch(ForecastCoordUrl)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      citydata = data.city.name;
+      locationElement.innerHTML = citydata;
+      windspeed = data.list[1].wind.speed;
+      windElement.innerHTML = `${windspeed} m/s`;
+      // Filter the forecast data to find rain forecasts
+      rainForecasts = data.list.filter(item => item.rain && item.rain["3h"]);
+      console.log("Rain forecasts:", rainForecasts);
+
+      // Display the first rain forecast's data
+      if (rainForecasts.length > 0) {
+        const firstRain = rainForecasts[0];
+        rainElement.innerHTML = `${firstRain.rain["3h"]} %`;
+      } else {
+        rainElement.innerHTML = "0.01 %";
+      }
+    })
+    .catch((error) => {
+      console.error(error.message);
+    });
+}
 
 // get user current location
 function getLocation() {
@@ -50,6 +96,8 @@ function success(position) {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      citydata = data.city.name;
+      locationElement.innerHTML = citydata;
       windspeed = data.list[1].wind.speed;
       windElement.innerHTML = `${windspeed} m/s`;
       // Filter the forecast data to find rain forecasts
@@ -61,11 +109,11 @@ function success(position) {
         const firstRain = rainForecasts[0];
         rainElement.innerHTML = `${firstRain.rain["3h"]} %`;
       } else {
-        rainElement.innerHTML = "No rain forecasted.";
+        rainElement.innerHTML = "0.01 %";
       }
     })
     .catch((error) => {
-      console.error(error.message)
+      console.error(error.message);
     });
 }
 
@@ -120,8 +168,7 @@ function updateClock() {
 updateClock();
 
 function error() {
-  alert("Sorry, no position available.");
-  console.log('sry, no position');
+  getWeather();
 }
 
 getLocation();
