@@ -49,9 +49,9 @@ function getWeather() {
       // Display the first rain forecast's data
       if (rainForecasts.length > 0) {
         const firstRain = rainForecasts[0];
-        rainElement.innerHTML = `${firstRain.rain["3h"]} %`;
+        rainElement.innerHTML = `${firstRain.rain["3h"]} mm`;
       } else {
-        rainElement.innerHTML = "0.01 %";
+        rainElement.innerHTML = "0.01 mm";
       }
     })
     .catch((error) => {
@@ -112,9 +112,9 @@ function getForecast(lat, lon) {
       // Display the first rain forecast's data
       if (rainForecasts.length > 0) {
         const firstRain = rainForecasts[0];
-        rainElement.innerHTML = `${firstRain.rain["3h"]} %`;
+        rainElement.innerHTML = `${firstRain.rain["3h"]} mm`;
       } else {
-        rainElement.innerHTML = "0.01 %";
+        rainElement.innerHTML = "0.01 mm";
       }
 
       const dataList = data.list;
@@ -152,7 +152,7 @@ function createCardElement(dataList) {
 }
 
 function nextPage() {
-  
+  document.getElementsByClassName("card-container")[0].style.transform = 'translateX(-432px)';
 }
 
 // get current date

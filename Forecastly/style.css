@@ -147,6 +147,7 @@ header {
   display: flex;
   flex-wrap: srcoll;
   gap: 1.5rem;
+  transition: transform 0.5s linear;
 }
 
 .card-item {
