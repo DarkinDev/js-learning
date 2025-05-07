@@ -4,7 +4,7 @@ const API_key = "806c10017721c07fa7a1f6804f00d0b9";
 const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&lang=vi&units=metric`;
 
 // api call for current forecast per 3 hrs/ 5 days
-const forecasturl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}`
+const forecasturl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}`;
 
 const locationElement = document.getElementsByClassName("location")[0];
 const tempElement = document.getElementsByClassName("temperature")[0];
@@ -15,34 +15,35 @@ const windElement = document.getElementsByClassName("windData")[0];
 const rainElement = document.getElementsByClassName("rainData")[0];
 
 function getWeather() {
-
   const city_name = "ha noi";
 
   const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&lang=vi&units=metric`;
 
-  const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}&lang=vi&units=metric`
+  const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}&lang=vi&units=metric`;
 
   fetch(url)
     .then((response) => {
       return response.json();
     })
     .then((data) => {
-      temp = data.main.temp;
-      degree = "&deg;C";
+      const temp = data.main.temp;
+      const degree = "&deg;C";
       tempElement.innerHTML = `${Math.round(temp)}`;
-      degreeElement.innerHTML = `${degree}`
+      degreeElement.innerHTML = `${degree}`;
     });
 
   fetch(ForecastCoordUrl)
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
-      citydata = data.city.name;
+      const citydata = data.city.name;
       locationElement.innerHTML = citydata;
-      windspeed = data.list[1].wind.speed;
+      const windspeed = data.list[1].wind.speed;
       windElement.innerHTML = `${windspeed} m/s`;
       // Filter the forecast data to find rain forecasts
-      rainForecasts = data.list.filter(item => item.rain && item.rain["3h"]);
+      const rainForecasts = data.list.filter(
+        (item) => item.rain && item.rain["3h"]
+      );
       console.log("Rain forecasts:", rainForecasts);
 
       // Display the first rain forecast's data
@@ -73,35 +74,39 @@ function success(position) {
   const lat = position.coords.latitude;
   // api call for current location weather
   const CoordUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_key}&lang=vi&units=metric`;
-  
-  // api call for current forecast per 3 hrs/ 5 days
-  const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_key}&lang=vi&units=metric`
-  
+
   // get data for user location weather
   fetch(CoordUrl)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
-      temp = data.main.temp;
-      degree = "&deg;C";
+      const temp = data.main.temp;
+      const degree = "&deg;C";
       tempElement.innerHTML = `${Math.round(temp)}`;
-      degreeElement.innerHTML = `${degree}`
+      degreeElement.innerHTML = `${degree}`;
     })
     .catch((error) => {
-      console.error(error.message)
+      console.error(error.message);
     });
 
-  // api call for forecast
+  getForecast(lat, lon);
+}
+
+// api call for forecast
+function getForecast(lat, lon) {
+  // api call for current forecast per 3 hrs/ 5 days
+  const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_key}&lang=vi&units=metric`;
+
   fetch(ForecastCoordUrl)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
-      citydata = data.city.name;
+      const citydata = data.city.name;
       locationElement.innerHTML = citydata;
-      windspeed = data.list[1].wind.speed;
+      const windspeed = data.list[1].wind.speed;
       windElement.innerHTML = `${windspeed} m/s`;
       // Filter the forecast data to find rain forecasts
-      rainForecasts = data.list.filter(item => item.rain && item.rain["3h"]);
+      const rainForecasts = data.list.filter(
+        (item) => item.rain && item.rain["3h"]
+      );
       console.log("Rain forecasts:", rainForecasts);
 
       // Display the first rain forecast's data
@@ -111,23 +116,56 @@ function success(position) {
       } else {
         rainElement.innerHTML = "0.01 %";
       }
+
+      const dataList = data.list;
+
+      createCardElement(dataList);
     })
+
     .catch((error) => {
       console.error(error.message);
     });
 }
 
+function createCardElement(dataList) {
+  const cardContainerElement =
+    document.getElementsByClassName("card-container")[0];
+
+  dataList.forEach((item) => {
+    const cardItemElement = document.createElement("div");
+    cardItemElement.classList.add("card-item");
+
+    const temp = item.main.temp;
+    const degree = "&deg;C";
+    const time = new Date(item.dt * 1000).toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+
+    cardItemElement.innerHTML = `
+        <p>${Math.round(temp)}${degree}</p>
+        <p>${time}</p>
+        `;
+    cardContainerElement.appendChild(cardItemElement);
+  });
+}
+
+function nextPage() {
+  
+}
+
 // get current date
 const today = new Date();
-const day = today.getDate()
+const day = today.getDate();
 
-const options = { year: 'numeric' , day: 'numeric' , month: 'long' };
+const options = { year: "numeric", day: "numeric", month: "long" };
 dateElement.innerHTML = today.toLocaleDateString("en-US", options);
 
 // get current day
 const d = today.getDay();
-let DayofWeek
-switch(d) {
+let DayofWeek;
+switch (d) {
   case 0:
     DayofWeek = "Sunday";
     break;
@@ -136,7 +174,7 @@ switch(d) {
     break;
   case 2:
     DayofWeek = "Tuesday";
-    break;  
+    break;
   case 3:
     DayofWeek = "Wednesday";
     break;
@@ -149,20 +187,19 @@ switch(d) {
   case 6:
     DayofWeek = "Saturday";
     break;
-
 }
 
 // update clock by realtime
 function updateClock() {
-  let today = new Date()
-  let hours = today.getHours()
-  let min = today.getMinutes()
+  let today = new Date();
+  let hours = today.getHours();
+  let min = today.getMinutes();
   // add leading zero to minutes if less than 10
-  if(min < 10) {
-    min = '0' + min;
+  if (min < 10) {
+    min = "0" + min;
   }
-  setTimeout(updateClock, 1000)
-  weekdayElement.innerHTML = `${DayofWeek} | ${hours}:${min}`
+  setTimeout(updateClock, 1000);
+  weekdayElement.innerHTML = `${DayofWeek} | ${hours}:${min}`;
 }
 
 updateClock();

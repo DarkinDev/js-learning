@@ -129,3 +129,47 @@ header {
   font-size: 30px;
   font-weight: 300;
 }
+
+.forecast {
+  position: relative;
+}
+
+.forecast button {
+  position: absolute;
+  top: 40%;
+  right: 1%;
+  border: none;
+  background-color: transparent;
+}
+
+.card-container {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: srcoll;
+  gap: 1.5rem;
+}
+
+.card-item {
+  flex-shrink: 0;
+  width: calc((100% - 6rem - 1.5rem) / 2);
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 11.385px;
+  background: rgba(255, 255, 255, 0.20);
+}
+
+.card-item p {
+  display: flex;
+  justify-content: center;
+}
+
+.card-item:nth-child(1) {
+  margin-left: 1.5rem;
+}
+
+.card-item:nth-child(2n) {
+  margin-right: 4rem;
+}
+

@@ -106,31 +106,41 @@
         </defs>
       </svg>
       <div class="search-btn">
-        <input type="text" id="search" placeholder="City"/>
+        <input type="text" id="search" placeholder="City" />
         <button onclick="citySearch()">
           <img src="assets/vector.svg" alt="Search" />
         </button>
       </div>
     </header>
     <main>
-      <div class="location"></div>
-      <div class="hero">
+      <section class="location"></section>
+      <section class="hero">
         <span class="temperature"></span>
         <span class="degree"></span>
-      </div>
+      </section>
+      <!-- TO DO: segmatic the section below -->
       <div class="date"></div>
       <div class="weekday-n-time"></div>
       <div class="info">
         <div class="wind">
-          <div><img src="assets/wind.svg" alt="wind icon">
-          <span>Wind</span> <span class="windData"></span></div>
+          <div>
+            <img src="assets/wind.svg" alt="wind icon" /> <span>Wind</span>
+            <span class="windData"></span>
+          </div>
         </div>
         <div class="rain">
-          <div><img src="assets/rain.svg" alt="rain icon">
-          <span>Rain</span> <span class="rainData"></span></div>
+          <div>
+            <img src="assets/rain.svg" alt="rain icon" /> <span>Rain</span>
+            <span class="rainData"></span>
+          </div>
         </div>
       </div>
-      
+      <section class="forecast">
+        <div class="card-container"></div>
+        <button onclick="nextPage()">
+          <img src="assets/nextarrow.svg" alt="next" />
+        </button>
+      </section>
     </main>
     <script src="./script.js"></script>
   </body>
