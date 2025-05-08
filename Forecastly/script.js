@@ -151,8 +151,28 @@ function createCardElement(dataList) {
   });
 }
 
+let currentPage = 0;
+
 function nextPage() {
-  document.getElementsByClassName("card-container")[0].style.transform = 'translateX(-432px)';
+  const cardContainer = document.getElementsByClassName("card-container")[0];
+  const cardWidth = 425;
+  const cardsPerPage = 2;
+  const maxPages = Math.ceil(cardContainer.children.length / cardsPerPage);
+
+  if (currentPage < maxPages - 1) {
+    currentPage++;
+    cardContainer.style.transform = `translateX(-${currentPage * cardWidth}px)`;
+  }
+}
+
+function prevPage() {
+  const cardContainer = document.getElementsByClassName("card-container")[0];
+  const cardWidth = 425;
+
+  if (currentPage > 0) {
+    currentPage--;
+    cardContainer.style.transform = `translateX(-${currentPage * cardWidth}px)`;
+  }
 }
 
 // get current date

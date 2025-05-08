@@ -134,12 +134,21 @@ header {
   position: relative;
 }
 
-.forecast button {
+.next-btn {
   position: absolute;
   top: 40%;
   right: 1%;
   border: none;
   background-color: transparent;
+}
+
+.prev-btn {
+  position: absolute;
+  top: 40%;
+  left: 1%;
+  border: none;
+  background-color: transparent;
+  transform: scaleX(-1);
 }
 
 .card-container {
@@ -167,7 +176,7 @@ header {
 }
 
 .card-item:nth-child(1) {
-  margin-left: 1.5rem;
+  margin-left: 3rem;
 }
 
 .card-item:nth-child(2n) {
