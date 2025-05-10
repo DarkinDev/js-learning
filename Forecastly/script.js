@@ -1,7 +1,7 @@
 const city_name = "ha noi";
 const API_key = "806c10017721c07fa7a1f6804f00d0b9";
 // api call for current location weather
-const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&lang=vi&units=metric`;
+const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&units=metric`;
 
 // api call for current forecast per 3 hrs/ 5 days
 const forecasturl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}`;
@@ -28,9 +28,9 @@ let DayofWeek;
 function getWeather() {
   const city_name = "ha noi";
 
-  const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&lang=vi&units=metric`;
+  const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&units=metric`;
 
-  const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}&lang=vi&units=metric`;
+  const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}&units=metric`;
 
   fetch(url)
     .then((response) => {
@@ -46,7 +46,6 @@ function getWeather() {
   fetch(ForecastCoordUrl)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       const citydata = data.city.name;
       locationElement.innerHTML = citydata;
       const windspeed = data.list[1].wind.speed;
@@ -88,7 +87,7 @@ function success(position) {
   const lon = position.coords.longitude;
   const lat = position.coords.latitude;
   // api call for current location weather
-  const CoordUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_key}&lang=vi&units=metric`;
+  const CoordUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_key}&units=metric`;
 
   // get data for user location weather
   fetch(CoordUrl)
@@ -109,7 +108,7 @@ function success(position) {
 // api call for forecast
 function getForecast(lat, lon) {
   // api call for current forecast per 3 hrs/ 5 days
-  const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_key}&lang=vi&units=metric`;
+  const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_key}&units=metric`;
 
   fetch(ForecastCoordUrl)
     .then((res) => res.json())
