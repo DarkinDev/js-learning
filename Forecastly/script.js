@@ -14,6 +14,17 @@ const weekdayElement = document.getElementsByClassName("weekday-n-time")[0];
 const windElement = document.getElementsByClassName("windData")[0];
 const rainElement = document.getElementsByClassName("rainData")[0];
 
+// get current date
+const today = new Date();
+const day = today.getDate();
+
+const options = { year: "numeric", day: "numeric", month: "long" };
+dateElement.innerHTML = today.toLocaleDateString("en-US", options);
+
+// get current day
+const d = today.getDay();
+let DayofWeek;
+
 function getWeather() {
   const city_name = "ha noi";
 
@@ -53,6 +64,10 @@ function getWeather() {
       } else {
         rainElement.innerHTML = "0.01 mm";
       }
+
+      const dataList = data.list;
+
+      createCardElement(dataList);
     })
     .catch((error) => {
       console.error(error.message);
@@ -142,10 +157,79 @@ function createCardElement(dataList) {
       minute: "2-digit",
       hour12: false,
     });
+    const date = new Date(item.dt * 1000).toLocaleDateString("vi-Vn", {
+      day: "numeric",
+      month: "numeric",
+    });
+
+    let icon = item.weather[0].icon;
+    let des = item.weather[0].description;
+    let IconSrc;
+
+    switch (icon) {
+      case "01d":
+        IconSrc = "assets/01d.png";
+        break;
+      case "01n":
+        IconSrc = "assets/01n.png";
+        break;
+      case "02d":
+        IconSrc = "assets/02d.png";
+        break;
+      case "02n":
+        IconSrc = "assets/02n.png";
+        break;
+      case "03d":
+        IconSrc = "assets/03d.png";
+        break;
+      case "03n":
+        IconSrc = "assets/03n.png";
+        break;
+      case "04d":
+        IconSrc = "assets/04d.png";
+        break;
+      case "04n":
+        IconSrc = "assets/04n.png";
+        break;
+      case "09d":
+        IconSrc = "assets/09d.png";
+        break;
+      case "09n":
+        IconSrc = "assets/09n.png";
+        break;
+      case "10d":
+        IconSrc = "assets/10d.png";
+        break;
+      case "10n":
+        IconSrc = "assets/10n.png";
+        break;
+      case "11d":
+        IconSrc = "assets/11d.png";
+        break;
+      case "11n":
+        IconSrc = "assets/11n.png";
+        break;
+      case "13d":
+        IconSrc = "assets/13d.png";
+        break;
+      case "13n":
+        IconSrc = "assets/13n.png";
+        break;
+      case "50d":
+        IconSrc = "assets/50d.png";
+        break;
+      case "50n":
+        IconSrc = "assets/50n.png";
+        break;
+    }
 
     cardItemElement.innerHTML = `
         <p>${Math.round(temp)}${degree}</p>
-        <p>${time}</p>
+        <div class="icon">
+          <img src="${IconSrc}" alt="${des}">
+        </div>
+        <p class="date">${date}</p>
+        <p class="time">${time}</p>
         `;
     cardContainerElement.appendChild(cardItemElement);
   });
@@ -175,16 +259,6 @@ function prevPage() {
   }
 }
 
-// get current date
-const today = new Date();
-const day = today.getDate();
-
-const options = { year: "numeric", day: "numeric", month: "long" };
-dateElement.innerHTML = today.toLocaleDateString("en-US", options);
-
-// get current day
-const d = today.getDay();
-let DayofWeek;
 switch (d) {
   case 0:
     DayofWeek = "Sunday";
