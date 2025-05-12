@@ -106,10 +106,10 @@
         </defs>
       </svg>
       <div class="search-btn">
-        <input type="text" id="search" placeholder="City" />
-        <button onclick="citySearch()">
+        <input type="text" id="search" placeholder="City" tabindex="-1" />
+        <a onclick="citySearch()" tabindex="-1">
           <img src="assets/vector.svg" alt="Search" />
-        </button>
+        </a>
       </div>
     </header>
     <main>
@@ -137,10 +137,10 @@
       </div>
       <section class="forecast">
         <div class="card-container"></div>
-        <button onclick="nextPage()" class="next-btn">
+        <button onclick="nextPage()" class="next-btn" tabindex="-1">
           <img src="assets/nextarrow.svg" alt="next" />
         </button>
-        <button onclick="prevPage()" class="prev-btn">
+        <button onclick="prevPage()" class="prev-btn" tabindex="-1">
           <img src="assets/nextarrow.svg" alt="next" />
         </button>
       </section>

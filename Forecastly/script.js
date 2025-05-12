@@ -1,3 +1,5 @@
+// !!!TO DO: Refactoring code because it is cleaner :P & enter in citySearch function
+
 const city_name = "ha noi";
 const API_key = "806c10017721c07fa7a1f6804f00d0b9";
 // api call for current location weather
@@ -13,6 +15,11 @@ const dateElement = document.getElementsByClassName("date")[0];
 const weekdayElement = document.getElementsByClassName("weekday-n-time")[0];
 const windElement = document.getElementsByClassName("windData")[0];
 const rainElement = document.getElementsByClassName("rainData")[0];
+const cardContainerElement =
+  document.getElementsByClassName("card-container")[0];
+const inputElement = document.getElementById("search");
+
+let currentPage = 0;
 
 // get current date
 const today = new Date();
@@ -25,8 +32,16 @@ dateElement.innerHTML = today.toLocaleDateString("en-US", options);
 const d = today.getDay();
 let DayofWeek;
 
-function getWeather() {
-  const city_name = "ha noi";
+// get city name from input to search
+function citySearch() {
+  let value = inputElement.value;
+
+  if (!value) {
+    alert("Please type a city.");
+    return;
+  }
+
+  const city_name = value;
 
   const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&units=metric`;
 
@@ -54,7 +69,6 @@ function getWeather() {
       const rainForecasts = data.list.filter(
         (item) => item.rain && item.rain["3h"]
       );
-      console.log("Rain forecasts:", rainForecasts);
 
       // Display the first rain forecast's data
       if (rainForecasts.length > 0) {
@@ -66,11 +80,105 @@ function getWeather() {
 
       const dataList = data.list;
 
+      replaceCardItem(dataList);
+    })
+    .catch((error) => {
+      console.error(error.message);
+    });
+  reset(inputElement);
+}
+
+// reset input value
+function reset(inputElement) {
+  inputElement.value = "";
+}
+
+// get weather data for default city when page loads
+function getWeather() {
+  const city_name = "Moscow";
+
+  const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&units=metric`;
+
+  const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}&units=metric`;
+
+  fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      const temp = data.main.temp;
+      const degree = "&deg;C";
+      tempElement.innerHTML = `${Math.round(temp)}`;
+      degreeElement.innerHTML = `${degree}`;
+    });
+
+  // api fetch for current forecast per 3 hrs/ 5 days
+  fetch(ForecastCoordUrl)
+    .then((res) => res.json())
+    .then((data) => {
+      const citydata = data.city.name;
+      locationElement.innerHTML = citydata;
+      const windspeed = data.list[1].wind.speed;
+      windElement.innerHTML = `${windspeed} m/s`;
+      // Filter the forecast data to find rain forecasts
+      const rainForecasts = data.list.filter(
+        (item) => item.rain && item.rain["3h"]
+      );
+
+      // Display the first rain forecast's data
+      if (rainForecasts.length > 0) {
+        const firstRain = rainForecasts[0];
+        rainElement.innerHTML = `${firstRain.rain["3h"]} mm`;
+      } else {
+        rainElement.innerHTML = "0.01 mm";
+      }
+
+      const dataList = data.list;
       createCardElement(dataList);
     })
     .catch((error) => {
       console.error(error.message);
     });
+}
+
+// replace card element for forecast
+function replaceCardItem(datalist) {
+  datalist.forEach((item, index) => {
+    const cardItemElement = document.createElement("div");
+    cardItemElement.classList.add("card-item");
+
+    const temp = item.main.temp;
+    const degree = "&deg;C";
+    const time = new Date(item.dt * 1000).toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    const date = new Date(item.dt * 1000).toLocaleDateString("vi-Vn", {
+      day: "numeric",
+      month: "numeric",
+    });
+
+    // get icon and description
+    let icon = item.weather[0].icon;
+    let des = item.weather[0].description;
+    const replaceIcon = iconReplace(icon);
+
+    // create card item element
+    cardItemElement.innerHTML = `
+        <p>${Math.round(temp)}${degree}</p>
+        <div class="icon">
+          <img src="${replaceIcon}" alt="${des}">
+        </div>
+        <p class="date">${date}</p>
+        <p class="time">${time}</p>
+        `;
+    cardContainerElement.appendChild(cardItemElement);
+    cardContainerElement.replaceChild(
+      cardItemElement,
+      cardContainerElement.childNodes[index]
+    );
+  });
 }
 
 // get user current location
@@ -121,7 +229,6 @@ function getForecast(lat, lon) {
       const rainForecasts = data.list.filter(
         (item) => item.rain && item.rain["3h"]
       );
-      console.log("Rain forecasts:", rainForecasts);
 
       // Display the first rain forecast's data
       if (rainForecasts.length > 0) {
@@ -141,6 +248,7 @@ function getForecast(lat, lon) {
     });
 }
 
+// create card element for forecast
 function createCardElement(dataList) {
   const cardContainerElement =
     document.getElementsByClassName("card-container")[0];
@@ -161,71 +269,16 @@ function createCardElement(dataList) {
       month: "numeric",
     });
 
+    // get icon and description
     let icon = item.weather[0].icon;
     let des = item.weather[0].description;
-    let IconSrc;
+    const replaceIcon = iconReplace(icon);
 
-    switch (icon) {
-      case "01d":
-        IconSrc = "assets/01d.png";
-        break;
-      case "01n":
-        IconSrc = "assets/01n.png";
-        break;
-      case "02d":
-        IconSrc = "assets/02d.png";
-        break;
-      case "02n":
-        IconSrc = "assets/02n.png";
-        break;
-      case "03d":
-        IconSrc = "assets/03d.png";
-        break;
-      case "03n":
-        IconSrc = "assets/03n.png";
-        break;
-      case "04d":
-        IconSrc = "assets/04d.png";
-        break;
-      case "04n":
-        IconSrc = "assets/04n.png";
-        break;
-      case "09d":
-        IconSrc = "assets/09d.png";
-        break;
-      case "09n":
-        IconSrc = "assets/09n.png";
-        break;
-      case "10d":
-        IconSrc = "assets/10d.png";
-        break;
-      case "10n":
-        IconSrc = "assets/10n.png";
-        break;
-      case "11d":
-        IconSrc = "assets/11d.png";
-        break;
-      case "11n":
-        IconSrc = "assets/11n.png";
-        break;
-      case "13d":
-        IconSrc = "assets/13d.png";
-        break;
-      case "13n":
-        IconSrc = "assets/13n.png";
-        break;
-      case "50d":
-        IconSrc = "assets/50d.png";
-        break;
-      case "50n":
-        IconSrc = "assets/50n.png";
-        break;
-    }
-
+    // create card item element
     cardItemElement.innerHTML = `
         <p>${Math.round(temp)}${degree}</p>
         <div class="icon">
-          <img src="${IconSrc}" alt="${des}">
+          <img src="${replaceIcon}" alt="${des}">
         </div>
         <p class="date">${date}</p>
         <p class="time">${time}</p>
@@ -234,8 +287,69 @@ function createCardElement(dataList) {
   });
 }
 
-let currentPage = 0;
+// replace icon in assets
+function iconReplace(icon) {
+  // convert icon to image
+  switch (icon) {
+    case "01d":
+      icon = `assets/${icon}.png`;
+      break;
+    case "01n":
+      icon = `assets/${icon}.png`;
+      break;
+    case "02d":
+      icon = `assets/${icon}.png`;
+      break;
+    case "02n":
+      icon = `assets/${icon}.png`;
+      break;
+    case "03d":
+      icon = `assets/${icon}.png`;
+      break;
+    case "03n":
+      icon = `assets/${icon}.png`;
+      break;
+    case "04d":
+      icon = `assets/${icon}.png`;
+      break;
+    case "04n":
+      icon = `assets/${icon}.png`;
+      break;
+    case "09d":
+      icon = `assets/${icon}.png`;
+      break;
+    case "09n":
+      icon = `assets/${icon}.png`;
+      break;
+    case "10d":
+      icon = `assets/${icon}.png`;
+      break;
+    case "10n":
+      icon = `assets/${icon}.png`;
+      break;
+    case "11d":
+      icon = `assets/${icon}.png`;
+      break;
+    case "11n":
+      icon = `assets/${icon}.png`;
+      break;
+    case "13d":
+      icon = `assets/${icon}.png`;
+      break;
+    case "13n":
+      icon = `assets/${icon}.png`;
+      break;
+    case "50d":
+      icon = `assets/${icon}.png`;
+      break;
+    case "50n":
+      icon = `assets/${icon}.png`;
+      break;
+  }
+  return icon;
+}
 
+// create a button to move the card to the left
 function nextPage() {
   const cardContainer = document.getElementsByClassName("card-container")[0];
   const cardWidth = 425;
@@ -248,6 +362,7 @@ function nextPage() {
   }
 }
 
+// create a button to move the card to the right
 function prevPage() {
   const cardContainer = document.getElementsByClassName("card-container")[0];
   const cardWidth = 425;
@@ -258,6 +373,8 @@ function prevPage() {
   }
 }
 
+// change the day of the week based on the current date
+// 0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday
 switch (d) {
   case 0:
     DayofWeek = "Sunday";
@@ -297,6 +414,7 @@ function updateClock() {
 
 updateClock();
 
+// if user didnt allow location, show default city
 function error() {
   getWeather();
 }

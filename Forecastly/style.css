@@ -5,7 +5,7 @@ body {
   max-width: 432px;
   max-height: 874px;
   margin: 0 auto;
-  background: #f0b5ce;
+  background: #000000;
   font-family: "Inter", sans-serif;
   color: #fff;
 }
@@ -43,9 +43,17 @@ header {
   justify-content: space-between;
 }
 
-.search-btn button {
+.search-btn a {
   background: transparent;
   border: transparent;
+  display: flex;
+  align-items: center;
+}
+
+.search-btn a img {
+  width: 25.356px;
+  height: 26px;
+  object-fit: contain;
 }
 
 .hero {
