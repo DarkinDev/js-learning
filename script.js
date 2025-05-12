@@ -3,7 +3,8 @@
 const city_name = "ha noi";
 const API_key = "806c10017721c07fa7a1f6804f00d0b9";
 // api call for current location weather
-const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&units=metric`;
+const url = `https:
+{city_name}&appid=${API_key}&units=metric`;
 
 // api call for current forecast per 3 hrs/ 5 days
 const forecasturl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}`;
@@ -43,7 +44,7 @@ function citySearch() {
 
   const city_name = value;
 
-  const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&units=metric`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&units=metric`;
 
   const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}&units=metric`;
 
@@ -97,7 +98,8 @@ function reset(inputElement) {
 function getWeather() {
   const city_name = "Moscow";
 
-  const url = `http://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_key}&units=metric`;
+  const url = `https:
+  {city_name}&appid=${API_key}&units=metric`;
 
   const ForecastCoordUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${API_key}&units=metric`;
 
