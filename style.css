@@ -139,7 +139,7 @@ header {
 }
 
 .forecast {
-  overflow: hidden;
+  overflow-x: scroll;
   position: relative;
 }
 
